@@ -54,6 +54,8 @@ Without OU the GPO will be linked to domain. The script has three options.
 3. Link To Domain
     3.1. You may want to use a WMI filter in this case. https://github.com/darkoperator/powershell_scripts/blob/master/install-wmifilters.ps1
 
+# Considerations
+
 The GPO link will not be enabled any case
 
 The GPO is hardcoded for thinness and written to the system directory, so only the script is neccesary. Not a recommended thing but hacky :P. This has a problem, some attributte is needed in the policy object in the Directory under cn=policies,cn=system,DC=contoso,DC=local, **gPCMachineExtensionNames** after creation with New-GPO and writting the .inf file with the config in the appropriate directory. Without it the policies defined will not show and not be applied.
