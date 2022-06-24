@@ -40,9 +40,9 @@ The script has two working modes: Using an Organizational Unit or without using 
 
 With OU, the script will list the OUs in the domain and ask for entering the DN of the target OU the GPO will be linked to. Also, the script will ask for moving automatically all the computers indicated in a file by Computer Name (line by line) to the target OU.
 
- ![Example Execution Linking to OU](https://raw.githubusercontent.com/PeterGabaldon/prevent_pth_gpo/main/assets/ou.gif?token=GHSAT0AAAAAABT6ZRI2GVYF66OFNJV4BYGOYVUYF3Q)
+ ![Example Execution Linking to OU](assets/ou.gif?token=GHSAT0AAAAAABT6ZRI2GVYF66OFNJV4BYGOYVUYF3Q)
 
-![Example Created GPO](https://raw.githubusercontent.com/PeterGabaldon/prevent_pth_gpo/main/assets/ou.png?token=GHSAT0AAAAAABT6ZRI2BTJ65RUDLKKH2B2GYVUYF6A)
+![Example Created GPO](assets/ou.png?token=GHSAT0AAAAAABT6ZRI2BTJ65RUDLKKH2B2GYVUYF6A)
 
 ## Without OU
 
