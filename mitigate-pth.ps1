@@ -33,6 +33,8 @@
 #                                                                                                                      ----> Whatver is added to this policy cannot logon via TS (Old RDP, for )
 #
 
+# INF
+
 $GPO_CONTENT='[Unicode]
 Unicode=yes
 [Version]
@@ -44,6 +46,13 @@ SeDenyNetworkLogonRight = *S-1-5-113
 [Registry Values]
 MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\FilterAdministratorToken=4,1
 MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\EnableLUA=4,1
+'
+
+# INI
+
+$GPT_CONTENT='[General]
+Version=2
+displayName=New Group Policy Object
 '
 
 function checkADModule {
@@ -169,7 +178,7 @@ changetype: modify
 add: gPCMachineExtensionNames
 gPCMachineExtensionNames: [{827D319E-6EAC-11D2-A4EA-00C04F79F83A}{803E14A0-B4FB-11D0-A0D0-00A0C90F574B}]
 -
-    "
+"
 
     $tmp = New-TemporaryFile
 
@@ -177,7 +186,20 @@ gPCMachineExtensionNames: [{827D319E-6EAC-11D2-A4EA-00C04F79F83A}{803E14A0-B4FB-
 
     C:\Windows\System32\ldifde.exe -i -f $tmp.FullName
 
-    # Create inf
+    $ldif = "dn: $($new_gpo | Select-Object -ExpandProperty Path)
+changetype: modify
+replace: versionNumber
+versionNumber: 2
+-
+"
+
+    $tmp = New-TemporaryFile
+
+    $ldif | Out-File -FilePath $tmp.FullName
+
+    C:\Windows\System32\ldifde.exe -i -f $tmp.FullName
+
+    # Create inf and ini
 
     # Get INF path from Directory
 
@@ -189,9 +211,12 @@ gPCMachineExtensionNames: [{827D319E-6EAC-11D2-A4EA-00C04F79F83A}{803E14A0-B4FB-
     $Searcher.Filter = $Filter
     $Searcher.SearchScope = "Base" # Either: "Base", "OneLevel" or "Subtree"
     
-    $path = "$($Searcher.FindAll().Properties.gpcfilesyspath)\Machine\Microsoft\Windows NT\SecEdit\GptTmpl.inf"  
+    $path = "$($Searcher.FindAll().Properties.gpcfilesyspath)\Machine\Microsoft\Windows NT\SecEdit\GptTmpl.inf"
+    $path_gpt = "$($Searcher.FindAll().Properties.gpcfilesyspath)\GPT.INI"
 
     New-Item $path -Value $GPO_CONTENT -Force
+
+    New-Item $path_gpt -Value $GPT_CONTENT -Force
 
     Set-GPPermission -Guid ($new_gpo | Select-Object -ExpandProperty Id) -PermissionLevel None -TargetName "Authenticated Users" -TargetType Group
 
