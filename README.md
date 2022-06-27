@@ -58,7 +58,7 @@ Without OU the GPO will be linked to domain. The script has three options.
 
 The GPO link will not be enabled any case
 
-The GPO is hardcoded for thinness and written to the system directory, so only the script is neccesary. Not a recommended thing but hacky :P. This has a problem, some attributte is needed in the policy object in the Directory under cn=policies,cn=system,DC=contoso,DC=local, **gPCMachineExtensionNames** after creation with New-GPO and writting the .inf file with the config in the appropriate directory. Without it the policies defined will not show and not be applied. Also, the versionNumber attribute should be set to non-zero (tested setting it to 2, not sure if it works using 1).
+The GPO is hardcoded for thinness and written to the appropriate SYSVOL path, so only the script is neccesary. Not a recommended thing but hacky :P. This has a problem, some attributte is needed in the policy object in the Directory under cn=policies,cn=system,DC=contoso,DC=local, **gPCMachineExtensionNames** after creation with New-GPO and writting the .inf file with the config in the appropriate directory. Without it the policies defined will not show and not be applied. Also, the versionNumber attribute should be set to non-zero (tested setting it to 2, not sure if it works using 1).
 
 ```
 Dn: CN={FB523DD2-BFF2-4CAB-A0DE-0F279BC12343},CN=Policies,CN=System,DC=contoso,DC=local
